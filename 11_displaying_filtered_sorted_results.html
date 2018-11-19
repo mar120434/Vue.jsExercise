@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Displaying Filtered/Sorted Results</title>
+</head>
+
+<body>
+  <h1>Displaying Filtered/Sorted Results 显示过滤/排序结果</h1>
+
+  <h2>v-for filter() computed</h2>
+  <ul id="vForFilterComputed">
+    <li v-for="n in evenNumbers">{{ n }}</li>
+  </ul>
+
+  <h2>v-for filter() methods</h2>
+  <ul id="vForFilterMethods">
+    <li v-for="n in even(numbers)">{{ n }}</li>
+  </ul>
+
+  <h2>v-for with a Range</h2>
+  <ul id="vForRange">
+    <li v-for="n in 5">{{ n }}</li>
+  </ul>
+
+  <h2>v-for on a template</h2>
+  <ul id="vForTemplate">
+    <li-template v-for="item in ITEMS" v-bind:todo="item" v-bind:key="item.value">
+      {{ item.msg }}
+    </li-template>
+  </ul>
+
+  <h2>v-for with a component</h2>
+  <div id="todo-list-example">
+    <form v-on:submit.prevent="addNewTodo">
+      <label for="new-todo">Add a todo</label>
+      <input v-model="newTodoText" id="new-todo" placeholder="E.g. Feed the cat">
+      <button>Add</button>
+    </form>
+    <ul>
+      <li
+      is="todo-item"
+      v-for="(todo, index) in TODOS"
+      v-bind:key="todo.id"
+      v-bind:title="todo.title"
+      v-on:remove="TODOS.splice(index, 1)">
+      </li>
+    </ul>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    // v-for filter() computed
+    var vForFilterComputed = new Vue({
+      el: '#vForFilterComputed',
+      data: {
+        numbers: [1, 2, 3, 4, 5]
+      },
+      computed: {
+        evenNumbers: function () {
+          return this.numbers.filter(function (number) {
+            return number % 2 === 0;
+          })
+        }
+      }
+    });
+
+    // v-for filter() methods
+    var vForFilterMethods = new Vue({
+      el: '#vForFilterMethods',
+      data: {
+        numbers: [1, 2, 3, 4, 5]
+      },
+      methods: {
+        even: function (numbers) {
+          return numbers.filter(function (number) {
+            return number % 2 === 0;
+          })
+        }
+      }
+    });
+
+    // v-for with a Range
+    var vForRange = new Vue({
+      el: '#vForRange'
+    });
+
+    // v-for on a template
+    Vue.component('li-template', {
+      props: ['todo'],
+      template: '<li>{{ todo.msg }}</li>'
+    });
+    var vForTemplate = new Vue({
+      el: '#vForTemplate',
+      data: {
+        ITEMS: [
+          { value: 1, msg: 1 },
+          { value: 2, msg: 2 },
+        ]
+      }
+    });
+
+    // v-for with a component
+    Vue.component('todo-item', {
+      template: '\
+        <li>\
+          {{ title }}\
+          <button v-on:click="$emit(\'remove\')">Remove</button>\
+        </li>\
+      ',
+      props: ['title']
+    })
+
+    new Vue({
+      el: '#todo-list-example',
+      data: {
+        newTodoText: '',
+        TODOS: [
+          {
+            id: 1,
+            title: 'Do the dishes',
+          },
+          {
+            id: 2,
+            title: 'Take out the trash',
+          },
+          {
+            id: 3,
+            title: 'Mow the lawn'
+          }
+        ],
+        nextTodoId: 4
+      },
+      methods: {
+        addNewTodo: function () {
+          this.TODOS.push({
+            id: this.nextTodoId++,
+            title: this.newTodoText
+          })
+          this.newTodoText = ''
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

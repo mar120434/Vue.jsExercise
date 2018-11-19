@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Array Change Detection</title>
+</head>
+
+<body>
+  <!-- Array Change Detection 陣列變動偵測 -->
+  <h1>Array Change Detection 陣列變動偵測</h1>
+
+  <!-- Mutation Methods 會讓陣列排列改變 -->
+  <h2>Mutation Methods 會讓陣列排列改變</h2>
+  <div>
+    <!-- push() 最後面加入 -->
+    <ul id="vForPush">
+      <li v-for="item in ITEMS" :key="item.id">
+        {{ item.msg }}
+      </li>
+    </ul>
+
+    <!-- pop() 最後面刪一個 -->
+    <ul id="vForPop">
+      <li v-for="item in ITEMS" :key="item.id">
+        {{ item.msg }}
+      </li>
+    </ul>
+
+    <!-- shift() 最前面刪一個 -->
+    <ul id="vForShift">
+      <li v-for="item in ITEMS" :key="item.id">
+        {{ item.msg }}
+      </li>
+    </ul>
+
+    <!-- unshift() 最前面加入 -->
+    <ul id="vForUnshift">
+      <li v-for="item in ITEMS" :key="item.id">
+        {{ item.msg }}
+      </li>
+    </ul>
+
+    <!-- splice(index, number, item1, .....) 刪除陣列中第 index 編號後面的 number 個物件，並把 item1 後的物件塞入 -->
+    <ul id="vForSplice">
+      <li v-for="item in ITEMS" :key="item.id">
+        {{ item.msg }}
+      </li>
+    </ul>
+
+    <!-- sort() 把陣列排序 -->
+    <ul id="vForSort">
+      <li v-for="item in ITEMS" :key="item.id">
+        {{ item.msg }}
+      </li>
+    </ul>
+
+    <!-- reverse() 陣列順序反轉 -->
+    <ul id="vForReverse">
+      <li v-for="item in ITEMS" :key="item.id">
+        {{ item.msg }}
+      </li>
+    </ul>
+  </div>
+
+  <!-- Replacing an Array 替換陣列，用在不會改變陣列排序的方法 -->
+  <h2>Replacing an Array 替換陣列，用在不會改變陣列排序的方法</h2>
+  <div>
+    <!-- a.concat(b) 將 b 陣列塞到 a 陣列後方 -->
+    <ul id="vForConcat">
+      <li v-for="item in ITEMS" :key="item.id">
+        {{ item.msg }}
+      </li>
+    </ul>
+
+    <!-- filter(filterFunction) 用篩選含式選取指定條件的陣列 -->
+    <ul id="vForFilter">
+      <li v-for="item in ITEMS" :key="item.id">
+        {{ item }}
+      </li>
+    </ul>
+
+    <!-- slice(start, end) 陣列中從 (start 索引值，包含) 到 (end 索引值，不包含)的回傳陣列 -->
+    <ul id="vForSlice">
+      <li v-for="item in ITEMS" :key="item.id">
+        {{ item.msg }}
+      </li>
+    </ul>
+  </div>
+
+  <!-- Caveat注意 Vue 無法偵測的變動 -->
+  <h2>Caveat注意 Vue 無法偵測的變動</h2>
+  <div>
+    <ul id="CaveatItem">
+      <li v-for="item in ITEMS" :key="item.id">
+        {{ item }}
+      </li>
+    </ul>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    // Mutation Methods 會讓陣列排列改變
+    var MutationMethods = function () {
+      // push() 最後面塞一個
+      var vForPush = new Vue({
+        el: '#vForPush',
+        data: {
+          ITEMS: [
+            { id: 'push1', msg: 'push1' },
+            { id: 'push2', msg: 'push2' },
+            { id: 'push3', msg: 'push3' }
+          ]
+        }
+      });
+      vForPush.ITEMS.push({ id: 'push4', msg: 'push4' });
+
+      // pop() 最後面刪一個
+      var vForPop = new Vue({
+        el: '#vForPop',
+        data: {
+          ITEMS: [
+            { id: 'pop1', msg: 'pop1' },
+            { id: 'pop2', msg: 'pop2' },
+            { id: 'pop3', msg: 'pop3' }
+          ]
+        }
+      });
+      vForPop.ITEMS.pop();
+
+      // shift() 最前面刪一個
+      var vForShift = new Vue({
+        el: '#vForShift',
+        data: {
+          ITEMS: [
+            { id: 'shift1', msg: 'shift1' },
+            { id: 'shift2', msg: 'shift2' },
+            { id: 'shift3', msg: 'shift3' }
+          ]
+        }
+      });
+      vForShift.ITEMS.shift();
+
+      // unshift() 最前面加入
+      var vForUnshift = new Vue({
+        el: '#vForUnshift',
+        data: {
+          ITEMS: [
+            { id: 'unshift1', msg: 'unshift1' },
+            { id: 'unshift2', msg: 'unshift2' },
+            { id: 'unshift3', msg: 'unshift3' }
+          ]
+        }
+      });
+      vForUnshift.ITEMS.unshift({ id: 'unshift00', msg: 'unshift00' }, { id: 'unshift0', msg: 'unshift0' });
+
+      // splice(index, number, item1, .....) 刪除陣列中第 index 編號後面的 number 個物件，並把 item1 後的物件塞入
+      var vForSplice = new Vue({
+        el: '#vForSplice',
+        data: {
+          ITEMS: [
+            { id: 'splice1', msg: 'splice1' },
+            { id: 'splice2', msg: 'splice2' },
+            { id: 'splice3', msg: 'splice3' },
+            { id: 'splice4', msg: 'splice4' }
+          ]
+        }
+      });
+      vForSplice.ITEMS.splice(1, 2, { id: 'splice5', msg: 'splice5' }, { id: 'splice6', msg: 'splice6' });
+
+      // sort() 把陣列排序
+      var vForSort = new Vue({
+        el: '#vForSort',
+        data: {
+          ITEMS: [
+            { value: 3, id: 'sort3', msg: 'sort3' },
+            { value: 2, id: 'sort2', msg: 'sort2' },
+            { value: 1, id: 'sort1', msg: 'sort1' },
+            { value: 4, id: 'sort4', msg: 'sort4' }
+          ]
+        }
+      });
+      vForSort.ITEMS.sort(function (a, b) {
+        return a.value > b.value;
+      });
+
+      // reverse() 陣列順序反轉
+      var vForReverse = new Vue({
+        el: '#vForReverse',
+        data: {
+          ITEMS: [
+            { value: 3, id: 'reverse3', msg: 'reverse3' },
+            { value: 2, id: 'reverse2', msg: 'reverse2' },
+            { value: 1, id: 'reverse1', msg: 'reverse1' },
+            { value: 4, id: 'reverse4', msg: 'reverse4' }
+          ]
+        }
+      });
+      vForReverse.ITEMS.reverse();
+    };
+    MutationMethods();
+
+    // Replacing an Array 替換陣列，用在不會改變陣列排序的方法
+    var ReplacingAnArray = function () {
+      // a.concat(b) 將 b 陣列塞到 a 陣列後方
+      var vForConcat = new Vue({
+        el: '#vForConcat',
+        data: {
+          ITEMS: [
+            { value: 1, id: 'concat1', msg: 'concat1' },
+            { value: 2, id: 'concat2', msg: 'concat2' }
+          ]
+        }
+      });
+      var concatArray = [
+        { value: 3, id: 'concat3', msg: 'concat3' },
+        { value: 4, id: 'concat4', msg: 'concat4' }
+      ];
+      vForConcat.ITEMS = vForConcat.ITEMS.concat(concatArray);
+
+      // filter(filterFunction) 用篩選含式選取指定條件的陣列
+      var vForFilter = new Vue({
+        el: '#vForFilter',
+        data: {
+          ITEMS: [
+            1,
+            2,
+            4,
+            8
+          ]
+        }
+      });
+      var filterFunction = function (arr) {
+        return arr > 2;
+      };
+      vForFilter.ITEMS = vForFilter.ITEMS.filter(filterFunction);
+
+      // slice(start, end) 陣列中從 (start 索引值，包含) 到 (end 索引值，不包含)的回傳陣列
+      var vForSlice = new Vue({
+        el: '#vForSlice',
+        data: {
+          ITEMS: [
+            { value: 1, id: 'slice1', msg: 'slice1' },
+            { value: 2, id: 'slice2', msg: 'slice2' },
+            { value: 3, id: 'slice3', msg: 'slice3' },
+            { value: 4, id: 'slice4', msg: 'slice4' },
+            { value: 5, id: 'slice5', msg: 'slice5' },
+            { value: 6, id: 'slice6', msg: 'slice6' }
+          ]
+        }
+      });
+      vForSlice.ITEMS = vForSlice.ITEMS.slice(1, 4);
+    };
+    ReplacingAnArray();
+
+    // Caveat注意 Vue 無法偵測的變動
+    var CaveatFunction = function () {
+      var CaveatItem = new Vue({
+        el: '#CaveatItem',
+        data: {
+          ITEMS: ['a', 'b', 'c', 'e', 'f', 'g', 'h', 'i', 'j', 'k']
+        }
+      });
+      // CaveatItem.ITEMS[1] = 'x'; 無法偵測
+      // 用 Vue.set 修改第4個索引的值改為 "x"
+      Vue.set(CaveatItem.ITEMS, 4, "x");
+      // 用 splice() 修改第5個索引的值改為 "y"
+      CaveatItem.ITEMS.splice(5, 1, "y");
+      // 用 splice() 修改第6個索引的值改為 "z"
+      CaveatItem.$set(CaveatItem.ITEMS, 6, "z");
+
+      // CaveatItem.ITEMS.length = 9; 無法偵測
+      // 用 splice() 修改陣列長度，把 'k' 刪除
+      console.log(CaveatItem.ITEMS);
+      console.log(CaveatItem.ITEMS.length); // 10
+      CaveatItem.ITEMS.splice(9);
+      console.log(CaveatItem.ITEMS);
+      console.log(CaveatItem.ITEMS.length); // 9
+    };
+    CaveatFunction();
+  </script>
+</body>
+
+</html>

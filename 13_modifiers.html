@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Modifiers</title>
+</head>
+
+<body>
+  <h1>Modifiers</h1>
+  <h2>Event Modifiers</h2>
+  <ul id="EventModifiers">
+    <li v-for="item in ITEMS">
+      {{ item.modifier }}
+    </li>
+  </ul>
+
+  <h2>Key Modifiers</h2>
+  <ul id="KeyModifiers">
+    <li v-for="item in ITEMS">
+      {{ item.modifier }}
+    </li>
+  </ul>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    var EventModifiers = new Vue({
+      el: '#EventModifiers',
+      data: {
+        ITEMS: [
+          { modifier: '.stop' },
+          { modifier: '.prevent' },
+          { modifier: '.capture' },
+          { modifier: '.self' },
+          { modifier: '.once' },
+          { modifier: '.passive' }
+        ]
+      }
+    });
+
+    var KeyModifiers = new Vue({
+      el: '#KeyModifiers',
+      data: {
+        ITEMS: [
+          { modifier: '.enter' },
+          { modifier: '.tab' },
+          { modifier: '.delete (包含 backspace, delete 鍵)' },
+          { modifier: '.esc' },
+          { modifier: '.space' },
+          { modifier: '.up' },
+          { modifier: '.down' },
+          { modifier: '.left' },
+          { modifier: '.right' },
+        ]
+      }
+    });
+  </script>
+</body>
+
+</html>

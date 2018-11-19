@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Class and Style</title>
+</head>
+
+<body>
+  <!-- Object Syntax start -->
+  <div>
+    <div id="app1">
+      <div v-bind:class="{ active: isActive }"></div>
+    </div>
+
+    <div id="app2">
+      <div class="static" v-bind:class="{ active: isActive, 'text-danger': hasError}"></div>
+    </div>
+
+    <div id="app3">
+      <div v-bind:class="classObject"></div>
+    </div>
+
+    <div id="app4">
+      <div v-bind:class="classObject"></div>
+    </div>
+  </div>
+  <!-- Object Syntax end -->
+
+  <!-- Array Syntax start -->
+  <div>
+    <div id="app5">
+      <div v-bind:class="[activeClass, errorClass]"></div>
+    </div>
+
+    <div id="app6">
+      <div v-bind:class="[isActive ? activeClass : '', errorClass]"></div>
+    </div>
+  </div>
+  <!-- Array Syntax end -->
+
+  <!-- With Components start -->
+  <div>
+    <div id="app7">
+      <app-component class="baz boo"></app-component>
+    </div>
+    <div id="app8">
+      <my-component v-bind:class="{ active: isActive }"></my-component>
+    </div>
+  </div>
+  <!-- With Components end -->
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    // Object Syntax starts
+    var ObjectSyntax = function () {
+      var vm1 = new Vue({
+        el: '#app1',
+        data: {
+          isActive: true
+        }
+      });
+
+      var vm2 = new Vue({
+        el: '#app2',
+        data: {
+          isActive: true,
+          hasError: false
+        }
+      });
+
+      var vm3 = new Vue({
+        el: '#app3',
+        data: {
+          classObject: {
+            active: true,
+            'text-danger': false
+          }
+        }
+      })
+
+      var vm4 = new Vue({
+        el: '#app4',
+        data: {
+          isActive: true,
+          error: null
+        },
+        computed: {
+          classObject: function () {
+            return {
+              active: this.isActive && !this.error,
+              'text-danger': this.error && this.error.type === 'fatal'
+            }
+          }
+        }
+      })
+    };
+    ObjectSyntax();
+    // Object Syntax end
+
+    // Array Syntax start
+    var ArraySyntax = function () {
+      var vm5 = new Vue({
+        el: '#app5',
+        data: {
+          activeClass: 'active',
+          errorClass: 'text-danger'
+        }
+      });
+
+      var vm6 = new Vue({
+        el: '#app6',
+        data: {
+          isActive: true,
+          activeClass: 'active',
+          errorClass: 'text-danger'
+        }
+      });
+    };
+    ArraySyntax();
+    // Array Syntax end
+
+    // With Components start
+    var WithComponents = function () {
+      // 先建一個 Vue.component
+      Vue.component('app-component', {
+        template: '<p class="foo bar">Hi</p>'
+      });
+      // 將 #app7 套用 Vue module
+      var vm7 = new Vue({
+        el: '#app7'
+      });
+      // 先建一個 Vue.component
+      Vue.component('my-component', {
+        template: '<p class="foo bar">Hi</p>'
+      });
+      // 將 #app8 套用 Vue module
+      var vm8 = new Vue({
+        el: '#app8',
+        data: {
+          isActive: true
+        }
+      });
+    };
+    WithComponents();
+    // With Components end
+  </script>
+</body>
+
+</html>

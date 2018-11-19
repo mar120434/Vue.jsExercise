@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Form Input Bindings</title>
+</head>
+
+<body>
+  <h1>Form Input Bindings</h1>
+  <h2>Text</h2>
+  <div id="app1">
+    <input v-model="msg" placeholder="請輸入文字">
+    <p>Message is: {{ msg }}</p>
+  </div>
+
+  <h2>Multiline Text</h2>
+  <div id="app2">
+    <p>Multiline message is:</p>
+    <p style="white-space: pre-line;">{{ msg }}</p>
+    <textarea v-model="msg" placeholder="請輸入多行文字"></textarea>
+  </div>
+
+  <h2>Checkbox</h2>
+  <div id="app3">
+    <input type="checkbox" id="checkbox" v-model="checked">
+    <label for="checkbox">{{ checked }}</label>
+  </div>
+
+  <h2>Multiple checkboxes</h2>
+  <div id="app4">
+    <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+    <label for="jack">Jack</label>
+    <input type="checkbox" id="john" value="John" v-model="checkedNames">
+    <label for="john">John</label>
+    <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+    <label for="mike">Mike</label>
+    <p>Checked names: {{ checkedNames }}</p>
+  </div>
+
+  <h2>Radio</h2>
+  <div id="app5">
+    <input type="radio" id="one" value="One" v-model="picked">
+    <label for="one">One</label>
+    <br>
+    <input type="radio" id="two" value="Two" v-model="picked">
+    <label for="two">Two</label>
+    <br>
+    <span>Picked: {{ picked }}</span>
+  </div>
+
+  <h2>Select</h2>
+  <div id="app6">
+    <select v-model="selected">
+      <option disabled value="">Please select one</option>
+      <option>A</option>
+      <option>B</option>
+      <option>C</option>
+    </select>
+    <span>Selected: {{ selected }}</span>
+  </div>
+
+  <h2>Multiple select</h2>
+  <div id="app7">
+    <select v-model="selected" multiple>
+      <option>A</option>
+      <option>B</option>
+      <option>C</option>
+    </select>
+    <br>
+    <span>Selected: {{ selected }}</span>
+  </div>
+
+  <h2>Dynamic options rendered with "v-for"</h2>
+  <div id="app8">
+    <select v-model="selected">
+      <option v-for="option in OPTIONS" v-bind:value="option.value">
+        {{ option.text }}
+      </option>
+    </select>
+    <span>Selected: {{ selected }}</span>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    // Text
+    var app1 = new Vue({
+      el: '#app1',
+      data: {
+        msg: ''
+      }
+    });
+
+    // Multiline Text
+    var app2 = new Vue({
+      el: '#app2',
+      data: {
+        msg: ''
+      }
+    });
+
+    // Checkbox
+    var app3 = new Vue({
+      el: '#app3',
+      data: {
+        checked: 'false'
+      }
+    });
+
+    // Multiple checkboxes
+    var app4 = new Vue({
+      el: '#app4',
+      data: {
+        checkedNames: []
+      }
+    });
+
+    // Radio
+    var app5 = new Vue({
+      el: '#app5',
+      data: {
+        picked: ''
+      }
+    });
+
+    // Select
+    var app6 = new Vue({
+      el: '#app6',
+      data: {
+        selected: ''
+      }
+    });
+
+    // Multiple select
+    var app7 = new Vue({
+      el: '#app7',
+      data: {
+        selected: []
+      }
+    });
+
+    // Dynamic options rendered with "v-for"
+    var app8 = new Vue({
+      el: '#app8',
+      data: {
+        selected: 'A',
+        OPTIONS: [
+          { text: 'One', value: 'A' },
+          { text: 'Two', value: 'B' },
+          { text: 'Three', value: 'C' }
+        ]
+      }
+    });
+  </script>
+</body>
+
+</html>

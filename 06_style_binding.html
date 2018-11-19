@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <!-- Object Syntax start -->
+  <div id="app1">
+    <div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }">app1</div>
+  </div>
+  <div id="app2">
+    <div v-bind:style="styleObject">app2</div>
+  </div>
+  <!-- Object Syntax end -->
+
+  <!-- Array Syntax start -->
+  <div id="app3">
+    <div v-bind:style="[baseStyles, overridingStyles]">app3</div>
+  </div>
+  <!-- Array Syntax end -->
+
+  <!-- Auto-prefixing start 自動添加前綴 -->
+  <div id="app4">
+    <div v-bind:style="[baseStyles, overridingStyles]">app4</div>
+  </div>
+  <!-- Auto-prefixing end -->
+
+  <!-- Multiple Values start 一个属性提供多个值 -->
+  <div id="app5">
+    <div :style="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }">app5</div>
+  </div>
+  <!-- Multiple Values end -->
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    // Object Syntax start
+    var ObjectSyntax = function () {
+      var vm1 = new Vue({
+        el: '#app1',
+        data: {
+          activeColor: 'red',
+          fontSize: 30
+        }
+      });
+      var vm2 = new Vue({
+        el: '#app2',
+        data: {
+          styleObject: {
+            color: 'red',
+            fontSize: '24px'
+          }
+        }
+      });
+    };
+    ObjectSyntax();
+    // Object Syntax end
+
+    // Array Syntax start
+    var ArraySyntax = function () {
+      var vm3 = new Vue({
+        el: '#app3',
+        data: {
+          baseStyles: {
+            color: 'green'
+          },
+          overridingStyles: {
+            fontSize: '28px'
+          }
+        }
+      });
+    };
+    ArraySyntax();
+    // Array Syntax end
+
+    // Auto-prefixing start 自動添加前綴
+    var AutoPrefixing = function () {
+      var vm4 = new Vue({
+        el: '#app4',
+        data: {
+          baseStyles: {
+            fontSize: '36px'
+          },
+          overridingStyles: {
+            transform: 'rotateZ(-30deg)'
+          }
+        }
+      });
+    };
+    AutoPrefixing();
+    // Auto-prefixing end
+
+    // Multiple Values start 一个属性提供多个值
+    var MultipleValues = function () {
+      var vm5 = new Vue({
+        el: '#app5'
+      });
+    };
+    MultipleValues();
+    // Multiple Values end
+  </script>
+</body>
+
+</html>

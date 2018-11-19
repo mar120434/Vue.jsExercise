@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Components Basics</title>
+</head>
+
+<body>
+  <h1>Components Basics</h1>
+  <h2>Base Example</h2>
+  <div id="components-demo">
+    <button-counter></button-counter>
+  </div>
+
+  <h2>Reusing Components 組件的重複使用</h2>
+  <div id="demo1">
+    <button-counter></button-counter>
+    <button-counter></button-counter>
+    <button-counter></button-counter>
+  </div>
+
+  <h2>Prop 傳遞數據 passing data with props</h2>
+  <div id="demo2">
+    <prop-data title="My journey with Vue"></prop-data>
+    <prop-data title="Blogging with Vue"></prop-data>
+    <prop-data title="Why Vue is so fun"></prop-data>
+  </div>
+
+  <h2>Prop 傳遞數據結合 'v-for'、'v-bind'、'v-bind:key'</h2>
+  <div id="demo3">
+    <prop-vfor v-for="item in ITEMS" v-bind:key="item.id" v-bind:title="item.title"></prop-vfor>
+  </div>
+
+  <h2>單一根元素 Single Root Element</h2>
+  <div id="demo4">
+    <blog-post v-for="post in POSTS" v-bind:key="post.id" v-bind:post="post"></blog-post>
+  </div>
+
+  <h2>用事件與父層溝通</h2>
+  <div id="demo5">
+    <div :style="{ fontSize: postFontSize + 'px' }">
+      <send-parents v-for="post in POSTS" v-bind:key="post.id" v-bind:post="post" v-on:enlarge-text="postFontSize += 1"></send-parents>
+    </div>
+  </div>
+
+  <h2>用事件與父層溝通 '$event'</h2>
+  <div id="demo6">
+    <div :style="{ fontSize: postFontSize + 'px' }">
+      <sp-event v-for="post in POSTS" v-bind:key="post.id" v-bind:post="post" v-on:enlarge-text="postFontSize += $event"></sp-event>
+    </div>
+  </div>
+
+  <h2>用事件與父層溝通 'methods'</h2>
+  <div id="demo7">
+    <div :style="{ fontSize: postFontSize + 'px' }">
+      <sp-methods v-for="post in POSTS" v-bind:key="post.id" v-bind:post="post" v-on:enlarge-text="onEnlargeText"></sp-methods>
+    </div>
+  </div>
+
+  <h2>組件使用 v-model</h2>
+  <div id="demo8">
+    <custom-input v-model="searchText"></custom-input>
+    <span>{{ searchText }}</span>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    // Components Basics
+    Vue.component('button-counter', {
+      // 注意，data 必須是含式
+      data: function () {
+        return {
+          count: 0
+        };
+      },
+      template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+    });
+    var componentsDemo = new Vue({
+      el: '#components-demo'
+    });
+
+    // Reusing Components 組件的重複使用
+    var demo1 = new Vue({
+      el: '#demo1'
+    });
+
+    // Prop 傳遞數據 passing data with props
+    Vue.component('prop-data', {
+      props: ['title'],
+      template: '<p>{{ title }}</p>'
+    });
+    var demo2 = new Vue({
+      el: '#demo2'
+    });
+
+    // Prop 傳遞數據結合 'v-for'、'v-bind'、'v-bind:key'
+    Vue.component('prop-vfor', {
+      props: ['title'],
+      template: '<p>{{ title }}</p>'
+    });
+    var demo3 = new Vue({
+      el: '#demo3',
+      data: {
+        ITEMS: [
+          { id: 1, title: 'My journey with Vue' },
+          { id: 2, title: 'Blogging with Vue' },
+          { id: 3, title: 'Why Vue is so fun' },
+        ]
+      }
+    });
+
+    // 單一根元素 Single Root Element
+    Vue.component('blog-post', {
+      props: ['post'],
+      template: `
+      <div>
+        <h3>
+          {{ post.title}}
+        </h3>
+        <div v-html="post.content">
+        </div>
+      </div>
+      `
+    });
+    var demo4 = new Vue({
+      el: '#demo4',
+      data: {
+        POSTS: [
+          { id: 1, title: 'title1', content: 'content1' },
+          { id: 2, title: 'title2', content: 'content2' },
+          { id: 3, title: 'title3', content: 'content3' }
+        ]
+      }
+    });
+
+    // 用事件與父層溝通
+    Vue.component('send-parents', {
+      props: ['post'],
+      template: `
+      <div class="blog-post">
+        <h3>
+          {{ post.title }}
+        </h3>
+        <button v-on:click="$emit('enlarge-text')">
+          Enlarge text
+        </button>
+        <div v-html="post.content"></div>
+      </div>
+      `
+    });
+    var demo5 = new Vue({
+      el: '#demo5',
+      data: {
+        POSTS: [
+          { id: 1, title: 'title1', content: 'content1' },
+          { id: 2, title: 'title2', content: 'content2' },
+          { id: 3, title: 'title3', content: 'content3' }
+        ],
+        postFontSize: 20
+      }
+    });
+
+    // 用事件與父層溝通 '$event'
+    Vue.component('sp-event', {
+      props: ['post'],
+      template: `
+      <div class="blog-post">
+        <h3>
+          {{ post.title }}
+        </h3>
+        <button v-on:click="$emit('enlarge-text', 1)">
+          Enlarge text
+        </button>
+        <div v-html="post.content"></div>
+      </div>
+      `
+    });
+    var demo6 = new Vue({
+      el: '#demo6',
+      data: {
+        POSTS: [
+          { id: 1, title: 'title1', content: 'content1' },
+          { id: 2, title: 'title2', content: 'content2' },
+          { id: 3, title: 'title3', content: 'content3' }
+        ],
+        postFontSize: 18
+      }
+    });
+
+    // 用事件與父層溝通 'methods'
+    Vue.component('sp-methods', {
+      props: ['post'],
+      template: `
+      <div class="blog-post">
+        <h3>
+          {{ post.title }}
+        </h3>
+        <button v-on:click="$emit('enlarge-text')">
+          Enlarge text
+        </button>
+        <div v-html="post.content"></div>
+      </div>
+      `
+    });
+    var demo7 = new Vue({
+      el: '#demo7',
+      data: {
+        POSTS: [
+          { id: 1, title: 'title1', content: 'content1' },
+          { id: 2, title: 'title2', content: 'content2' },
+          { id: 3, title: 'title3', content: 'content3' }
+        ],
+        postFontSize: 20
+      },
+      methods: {
+        onEnlargeText: function () {
+          this.postFontSize += 1;
+        }
+      }
+    });
+
+    Vue.component('custom-input', {
+      props: ['value'],
+      template: `<input v-bind:value="value" v-on:input="$emit('input', $event.target.value)">`
+    });
+    var demo8 = new Vue({
+      el: '#demo8',
+      data: {
+        searchText: ''
+      }
+    });
+  </script>
+</body>
+
+</html>

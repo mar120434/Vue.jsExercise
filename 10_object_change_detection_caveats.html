@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>物件修改注意事項</h1>
+  <h2>Vue 無法偵測物件的修改跟刪除</h2>
+
+  <h3>使用 Vue.set(object, key, value) 修改物件屬性</h3>
+  <p id="obj1">{{ OBJECT }}</p>
+
+  <h3>使用 vm.$set(object, key, value) 修改物件屬性</h3>
+  <p id="obj2">{{ OBJECT }}</p>
+
+  <h3>Object.assign() 複製物件</h3>
+  <p id="obj3">{{ OBJECT }}</p>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    // 使用 Vue.set(object, key, value) 修改物件屬性
+    var obj1 = new Vue({
+      el: '#obj1',
+      data: {
+        OBJECT: {
+          msg: 'obj1'
+        }
+      }
+    });
+    Vue.set(obj1.OBJECT, 'value', 27);
+    // 使用 vm.$set(object, key, value) 修改物件屬性
+    var obj2 = new Vue({
+      el: '#obj2',
+      data: {
+        OBJECT: {
+          msg: 'obj2'
+        }
+      }
+    });
+    obj2.$set(obj2.OBJECT, 'value', 30);
+    // Object.assign() 複製物件
+    var obj3 = new Vue({
+      el: '#obj3',
+      data: {
+        OBJECT: {
+          msg: 'obj3'
+        }
+      }
+    });
+    var jetObj = { value: 33 };
+    obj3.OBJECT = Object.assign({}, obj3.OBJECT, jetObj);
+  </script>
+</body>
+
+</html>

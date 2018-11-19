@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Conditional Rendering</title>
+</head>
+
+<body>
+  <div id="app">
+    <h1 v-if="ok">Yes</h1>
+    <h1 v-else>No</h1>
+  </div>
+
+  <!-- v-if -->
+  <div id="app1">
+    <template v-if="ok">
+      <h1>Title</h1>
+      <p>Paragraph 1</p>
+      <p>Paragraph 2</p>
+    </template>
+  </div>
+
+  <!-- v-else -->
+  <div id="app2">
+    <div v-if="Math.random() > 0.5">
+      Now you see me
+    </div>
+    <div v-else>
+      Now you don't
+    </div>
+  </div>
+
+  <!-- v-else-if -->
+  <div id="app3">
+    <div v-if="type === 'A'">
+      A
+    </div>
+    <div v-else-if="type === 'B'">
+      B
+    </div>
+    <div v-else-if="type === 'C'">
+      C
+    </div>
+    <div v-else>
+      Not A/B/C
+    </div>
+  </div>
+
+  <!-- Controlling控制 Reusable可重複使用的 Elements元素 with 'key' -->
+  <div id="app4">
+    <template v-if="loginType === 'username'">
+      <label>Username</label>
+      <input placeholder="Enter your username">
+    </template>
+    <template v-else>
+      <label>Email</label>
+      <input placeholder="Enter your email address">
+    </template>
+  </div>
+
+  <div id="app5">
+    <template v-if="loginType === 'username'">
+      <label>Username</label>
+      <input placeholder="Enter your username" key="username-input">
+    </template>
+    <template v-else>
+      <label>Email</label>
+      <input placeholder="Enter your email address" key="email-input">
+    </template>
+  </div>
+
+  <!-- v-show -->
+  <div id="app6">
+    <h1 v-show="ok">Hello!</h1>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        ok: true
+      }
+    });
+
+    // v-if
+    var vm1 = new Vue({
+      el: '#app1',
+      data: {
+        ok: true
+      }
+    });
+
+    // v-else
+    var vm2 = new Vue({
+      el: '#app2'
+    });
+
+    // v-else-if
+    var vm3 = new Vue({
+      el: '#app3',
+      data: {
+        type: 'A'
+      }
+    });
+
+    // Controlling控制 Reusable可重複使用的 Elements元素 with 'key'
+    var vm4 = new Vue({
+      el: '#app4',
+      data: {
+        loginType: 'username'
+      }
+    });
+
+    var vm5 = new Vue({
+      el: '#app5',
+      data: {
+        loginType: 'username'
+      }
+    });
+
+    // v-show
+    var vm6 = new Vue({
+      el: '#app6',
+      data: {
+        ok: true
+      }
+    });
+  </script>
+</body>
+
+</html>

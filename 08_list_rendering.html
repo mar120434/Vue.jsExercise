@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <ul id="example1">
+    <li v-for="item in ITEMS">
+      {{ item.message }}
+    </li>
+  </ul>
+
+  <ul id="example2">
+    <li v-for="(item, index) in ITEMS">
+      {{ parentMessage }} - {{ index }} - {{ item.message }}
+    </li>
+  </ul>
+
+  <ul id="example3">
+    <li v-for="(item, index) of ITEMS">
+      {{ index }} - {{ item.message }}
+    </li>
+  </ul>
+
+  <!-- with an Object -->
+  <ul id="example4" class="demo">
+    <li v-for="value in object">
+      {{ value }}
+    </li>
+  </ul>
+
+  <ul id="example5">
+    <li v-for="(value, key) in object">
+      {{ key }}: {{ value }}
+    </li>
+  </ul>
+
+  <ul id="example6">
+    <li v-for="(value, key, index) in object">
+      {{ index }}. {{ key }}: {{ value }}
+    </li>
+  </ul>
+
+  <!-- provide提供 a key with v-for -->
+  <ul id="example7">
+    <li v-for="item in ITEMS" :key="item.id">
+      {{ item.message }}
+    </li>
+  </ul>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    var example1 = new Vue({
+      el: '#example1',
+      data: {
+        ITEMS: [
+          { message: 'Foo' },
+          { message: 'Bar' }
+        ]
+      }
+    });
+
+    var example2 = new Vue({
+      el: '#example2',
+      data: {
+        parentMessage: 'Parent',
+        ITEMS: [
+          { message: 'Foo' },
+          { message: 'Bar' }
+        ]
+      }
+    });
+
+    var example3 = new Vue({
+      el: '#example3',
+      data: {
+        ITEMS: [
+          { message: 'Foo' },
+          { message: 'Bar' }
+        ]
+      }
+    });
+
+    // with an Object
+    var example4 = new Vue({
+      el: '#example4',
+      data: {
+        object: {
+          firstName: 'John',
+          lastName: 'Doe',
+          age: 30
+        }
+      }
+    });
+
+    var example5 = new Vue({
+      el: '#example5',
+      data: {
+        object: {
+          firstName: 'John',
+          lastName: 'Doe',
+          age: 30
+        }
+      }
+    });
+
+    var example6 = new Vue({
+      el: '#example6',
+      data: {
+        object: {
+          firstName: 'John',
+          lastName: 'Doe',
+          age: 30
+        }
+      }
+    });
+
+    // provide提供 a key with v-for
+    var example7 = new Vue({
+      el: '#example7',
+      data: {
+        ITEMS: [
+          { message: 'Foo' },
+          { message: 'Bar' }
+        ]
+      }
+    });
+  </script>
+</body>
+
+</html>
